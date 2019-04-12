@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory,url_for,redirect
 from redis import Redis, RedisError
 import os
 import socket
@@ -9,7 +9,8 @@ redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
 app = Flask(__name__)
 @app.route('/js/<path:filename>')
 def serve_static(filename):
-    return send_from_directory(os.path.join('.','static','js'),filename)
+    url=url_for('static',filename=os.path.join('js',filename))
+    return redirect(url)
 
 @app.route("/")
 def hello():
